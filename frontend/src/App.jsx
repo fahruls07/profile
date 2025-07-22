@@ -9,7 +9,16 @@ import Contact from './pages/Contact';
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gray-900 bg-[url('/bg-pattern.png')] bg-cover bg-center text-white transition-colors">
+      <div
+        className="
+          min-h-screen
+          bg-cover bg-center bg-no-repeat
+          transition-colors duration-500
+          text-black dark:text-white
+          bg-[url('/images/bg-light.png')]
+          dark:bg-[url('/images/bg-dark.png')]
+        "
+      >
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
