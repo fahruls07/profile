@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Experience from './pages/Experience';
 import Education from './pages/Education';
 import Contact from './pages/Contact';
+import ExperienceDetail from './pages/ExperienceDetail';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/experience" element={<Experience />} />
           <Route path="/education" element={<Education />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/experience/:slug" element={<ExperienceDetail />} />
         </Routes>
       </div>
     </BrowserRouter>

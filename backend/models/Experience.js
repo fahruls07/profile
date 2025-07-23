@@ -1,11 +1,14 @@
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const experienceSchema = new mongoose.Schema({
-  position: String,
+  role: String,
   company: String,
-  duration: String,
+  year: String,
   description: String,
+  responsibilities: [String],
   stack: [String],
+  slug: String, // ← tambahkan slug
 });
 
-module.exports = mongoose.model('Experience', experienceSchema);
+export default mongoose.model('Experience', experienceSchema);
