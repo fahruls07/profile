@@ -55,7 +55,7 @@ export default function Experience() {
               <div className="absolute -left-[11px] top-1 w-4 h-4 bg-white dark:bg-gray-900 border-4 border-orange-500 rounded-full shadow-md" />
 
               {/* Bubble Content */}
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300 backdrop-blur-sm bg-white/70 dark:bg-gray-800/60">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-3">
                   <img
@@ -97,7 +97,7 @@ export default function Experience() {
                 <div className="mt-5 text-right">
                   <Link
                     to={`/experience/${exp.slug}`}
-                    className="inline-block text-sm text-orange-600 dark:text-orange-400 hover:underline hover:text-orange-700 dark:hover:text-orange-300 transition-colors"
+                    className="inline-block text-sm font-medium px-4 py-1 border border-orange-400 dark:border-orange-500 rounded-full backdrop-blur-md bg-orange-50/30 dark:bg-orange-500/10 text-orange-700 dark:text-orange-300 hover:bg-orange-100/50 dark:hover:bg-orange-600/20 transition-all duration-300"
                   >
                     More details →
                   </Link>
