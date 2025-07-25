@@ -28,7 +28,7 @@ mongoose.connect('mongodb://mongo:27017/resumedb', {
         company: "FPT Software Indonesia",
         role: "Devops Engineer",
         year: "Nov 2023 - now",
-        description: "Configuration infrastructure CRDE-Replatform on GCP, Implement CI/CD Pipeline and Maintenance Software Development Live Cycle in any environment (development, staging, and production), research and development best practice, also create documentation.",
+        description: "CIMB Niaga project for Configuration infrastructure CRDE-Replatform on GCP, Implement CI/CD Pipeline and Maintenance Software Development Live Cycle in any environment (development, staging, and production), research and development best practice, also create documentation.",
         stack: [
           "GCP (Instance, GKE, GCS, Scheduler, LoadBalancer, Google Cloud Monitoring, Google Artifactory)",
           "Bitbucket", "Docker", "Kubernetes", "Jenkins", "Grafana", "Prometheus", "Terraform",
@@ -84,7 +84,7 @@ mongoose.connect('mongodb://mongo:27017/resumedb', {
         company: "PT. Phintraco Counsulting (Phincon)",
         role: "Devops Engineer",
         year: "November 2019 - June 2021",
-        description: "Maintenance Software Development Live Cycle in any environment (development, staging, and production), implement CI/CD pipeline and configuration infrastructure on premis server for MyTelkomsel application",
+        description: "Telkomsel project for Maintenance Software Development Live Cycle in any environment (development, staging, and production), implement CI/CD pipeline and configuration infrastructure on premis server for MyTelkomsel application",
         stack: [
           "Jenkins", "Github", "Gitlab", "Jfrog-Artifactory", "Ansible", "Grafana", "Newrelic",
           "Dynatrace", "firebase", "linux server", "CloudFlare", "Kafka", "Redis", "Ansible",

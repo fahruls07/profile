@@ -31,7 +31,7 @@ export default function ExperienceDetail() {
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-4 mb-4">
           <img
-            src={`/assets/logos/${experience.slug}.png`}
+            src={`/assets/logos/${experience.slug}-logo.png`}
             alt={`${experience.company} logo`}
             className="w-12 h-12 object-contain"
             onError={(e) => (e.target.style.display = 'none')}

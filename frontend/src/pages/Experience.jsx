@@ -38,7 +38,7 @@ export default function Experience() {
       <div className="space-y-14">
         {experiences.map((exp, index) => {
           const isEven = index % 2 === 0;
-          const logoSrc = `/assets/logos/${exp.slug}.png`;
+          const logoSrc = `/assets/logos/${exp.slug}-logo.png`;
 
           return (
             <motion.div
