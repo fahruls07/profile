@@ -98,19 +98,43 @@ mongoose.connect('mongodb://mongo:27017/resumedb', {
         slug: "phincon"
       }
     ],
-    education: [
+    educationFormal: [
       {
-        school: "Trisakti University",
+        institution: "Trisakti University",
         degree: "Bachelor Degree",
         major: "Electrical Engineering - Telecommunications",
         year: "2009 - 2013",
-        GPA: "3.31"
+        gpa: "3.31"
+      }
+    ],
+    educationNonFormal: [
+      {
+        course: "DevOps Engineer Bootcamp",
+        institution: "Dicoding Indonesia",
+        year: "2021",
+        description: "Learned CI/CD, Kubernetes, Terraform, Docker, and DevSecOps best practices."
+      },
+      {
+        course: "Cloud Practitioner Essentials",
+        institution: "Amazon Web Services",
+        year: "2020",
+        description: "Fundamentals of AWS services, billing, security, and architecture principles."
+      },
+      {
+        course: "Docker and Kubernetes: The Complete Guide",
+        institution: "Udemy",
+        year: "2020",
+        description: "Hands-on Docker CLI, Dockerfile, images, and deploying apps with Kubernetes."
       }
     ],
     contact: {
       email: "fahrulsidik07@gmail.com",
       linkedin: "https://www.linkedin.com/in/fahrul-sidik-1433a3b7/",
-      github: "https://github.com/fahruls07"
+      github: "https://github.com/fahruls07",
+      whatsapp: {
+        label: "Call / WhatsApp",
+        number: "+6281234567890"
+      }
     }
   };
 
