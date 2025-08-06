@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './pages/Home';
 import Experience from './pages/Experience';
 import Education from './pages/Education';
@@ -13,6 +14,7 @@ export default function App() {
       <div
         className="
           min-h-screen
+          flex flex-col
           bg-cover bg-center bg-no-repeat
           transition-colors duration-500
           text-black dark:text-white
@@ -21,13 +23,18 @@ export default function App() {
         "
       >
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/education" element={<Education />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/experience/:slug" element={<ExperienceDetail />} />
-        </Routes>
+
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/education" element={<Education />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/experience/:slug" element={<ExperienceDetail />} />
+          </Routes>
+        </div>
+
+        <Footer />
       </div>
     </BrowserRouter>
   );

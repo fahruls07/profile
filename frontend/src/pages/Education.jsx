@@ -21,14 +21,33 @@ export default function Education() {
 
   const handleImgError = (e) => {
     e.target.onerror = null;
-    e.target.src = '/assets/logos/blank.png'; // gambar kosong transparan
+    e.target.src = '/assets/logos/blank.png'; // fallback transparan
   };
 
   return (
     <div className="px-4 sm:px-6 py-12 max-w-5xl mx-auto">
-      {/* Heading */}
+      {/* Heading 
       <h1 className="text-2xl font-bold px-6 py-2 rounded-full border-2 border-orange-500 text-orange-100 bg-[#0f172a] w-fit mx-auto mb-10 shadow-md">
         Education
+      </h1> */}
+      <h1 className="relative text-3xl font-bold mb-16 text-center">
+        <span className="relative z-10 px-8 py-3 inline-block text-gray-900 dark:text-white bg-white dark:bg-gray-900 border-4 border-orange-500 rounded-full shadow-lg tracking-wide">
+          Education
+        </span>
+        <svg
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[60px] opacity-30 dark:opacity-20 pointer-events-none"
+          viewBox="0 0 160 50"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5 25C30 -5 130 55 155 25"
+            stroke="#F97316"
+            strokeWidth="3"
+            strokeDasharray="8 4"
+            strokeLinecap="round"
+          />
+        </svg>
       </h1>
 
       {/* Formal Education */}
@@ -53,12 +72,16 @@ export default function Education() {
                 className="h-14 w-14 object-contain rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
               />
               <div>
-                <h3 className="text-lg font-bold text-gray-800 dark:text-orange-300">{edu.institution}</h3>
+                <h3 className="text-lg font-bold text-gray-800 dark:text-orange-300">
+                  {edu.institution}
+                </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   {edu.degree}, {edu.major} <br />
                   <span className="text-xs">({edu.year})</span>
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">GPA: {edu.gpa}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  GPA: {edu.gpa}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -80,12 +103,19 @@ export default function Education() {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               className="bg-white/60 dark:bg-white/5 border border-gray-300/20 dark:border-gray-700/30 backdrop-blur-md p-6 rounded-2xl shadow-md hover:shadow-lg transition"
             >
-              <h3 className="text-base font-semibold text-gray-800 dark:text-white">{course.course}</h3>
+              <h3 className="text-base font-semibold text-gray-800 dark:text-white">
+                {course.course}
+              </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 {course.institution} &middot; {course.year}
               </p>
+
               {course.description && (
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{course.description}</p>
+                <ul className="mt-3 space-y-2 list-disc list-inside text-sm text-gray-500 dark:text-gray-400">
+                  {course.description.split('.').map((point, i) =>
+                    point.trim() ? <li key={i}>{point.trim()}</li> : null
+                  )}
+                </ul>
               )}
             </motion.div>
           ))}
