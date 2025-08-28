@@ -1,32 +1,38 @@
 services:
   nginx:
     image: nginx:alpine
+    restart: unless-stopped
     container_name: resume_nginx
     ports:
       - "80:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - frontend
-      - backend
-
+      
   frontend:
-    build: ./frontend
+    image: ${DOCKER_REGISTRY}/profile-fe:${FE_VERSION}
+    restart: unless-stopped
     container_name: resume_frontend
     expose:
       - "3000"
+    environment:
+      - VITE_API_URL=${BE_URL}
+      - VITE_LOGO_PATH=${LOGO_PATH}
+      - VITE_BACKGROUND_PATH=${BACKGROUND_PATH}
+      - VITE_BANNER_PATH=${BANNER_PATH}
+      - VITE_PROFILE_PATH=${PROFILE_PATH}
     volumes:
-      - ./frontend/public:/app/public
+      - ./profile-frontend/public:/app/public
 
   backend:
-    build: ./backend
+    image: ${DOCKER_REGISTRY}/profile-be:${BE_VERSION}
     container_name: resume_backend
     ports:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/resumedb
-    depends_on:
-      - mongo
+      - ASSETS_PATH=/app/public/assets
+    volumes:
+      - ./profile-frontend/public:/app/public
 
   mongo:
     image: mongo:6
