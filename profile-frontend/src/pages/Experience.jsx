@@ -4,19 +4,25 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { resolveImagePath } from '@/utils/resolveImagePath';
 import { imageFallbackHandler } from '@/utils/imageFallbackHandler';
+import { logInfo, logError, logWarn } from '@/utils/logger';
 
 export default function Experience() {
   const [experiences, setExperiences] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/profile').then(res => {
-      setExperiences(res.data.experiences || []);
-    });
+    logInfo('[API] fetching /api/profile ...');
+    axios.get('/api/profile')
+      .then(res => {
+        setExperiences(res.data.experiences || []);
+        logInfo('[API] /api/profile OK, experiences:', res.data.experiences?.length || 0);
+      })
+      .catch(err => {
+        logError('[API] /api/profile FAILED:', err.message);
+      });
   }, []);
 
   return (
     <div className="px-4 sm:px-6 py-12 max-w-5xl mx-auto">
-      {/* Heading */}
       <h1 className="relative text-3xl font-bold mb-16 text-center">
         <span className="relative z-10 px-8 py-3 inline-block text-gray-900 dark:text-white bg-white dark:bg-gray-900 border-4 border-orange-500 rounded-full shadow-lg tracking-wide">
           Experience
@@ -27,6 +33,8 @@ export default function Experience() {
         {experiences.map((exp, index) => {
           const isEven = index % 2 === 0;
           const logoSrc = resolveImagePath(`logo/${exp.slug}`);
+
+          logInfo('[EXPERIENCE] render item:', exp.slug, '→', logoSrc);
 
           return (
             <motion.div
@@ -39,18 +47,18 @@ export default function Experience() {
                 isEven ? 'ml-0' : 'ml-8 sm:ml-24'
               }`}
             >
-              {/* Timeline Dot */}
               <div className="absolute -left-[11px] top-1 w-4 h-4 bg-white dark:bg-gray-900 border-4 border-orange-500 rounded-full shadow-md" />
 
-              {/* Bubble Content */}
               <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-300 backdrop-blur-sm bg-white/70 dark:bg-gray-800/60">
-                {/* Header */}
                 <div className="flex items-center gap-4 mb-3">
                   <img
                     src={logoSrc}
                     alt={`${exp.company} logo`}
                     className="w-12 h-12 object-contain rounded"
-                    onError={imageFallbackHandler}
+                    onError={(e) => {
+                      logWarn('[IMG] gagal load logo:', logoSrc);
+                      imageFallbackHandler(e);
+                    }}
                   />
                   <div>
                     <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -62,12 +70,10 @@ export default function Experience() {
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-line leading-relaxed">
                   {exp.description}
                 </p>
 
-                {/* Tech Stack */}
                 {exp.stack?.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {exp.stack.map((tech, idx) => (
@@ -81,7 +87,6 @@ export default function Experience() {
                   </div>
                 )}
 
-                {/* More Details */}
                 <div className="mt-5 text-right">
                   <Link
                     to={`/experience/${exp.slug}`}

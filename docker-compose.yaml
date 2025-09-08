@@ -20,6 +20,7 @@ services:
       - VITE_BACKGROUND_PATH=${BACKGROUND_PATH}
       - VITE_BANNER_PATH=${BANNER_PATH}
       - VITE_PROFILE_PATH=${PROFILE_PATH}
+      - VITE_DEBUG=${DEBUG}
     volumes:
       - ./profile-frontend/public:/app/public
 

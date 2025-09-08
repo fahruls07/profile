@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import duration from "dayjs/plugin/duration";
 import { FaSpinner } from "react-icons/fa";
+import { logInfo, logError } from "@/utils/logger";
 
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
@@ -31,16 +32,21 @@ export default function CareerTimeline() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    logInfo("[API] fetching /api/profile (career timeline) ...");
     axios
       .get("/api/profile")
       .then((res) => {
         const exp = res.data.experiences || [];
+        logInfo("[API] /api/profile OK (career timeline), experiences:", exp.length);
+
         const timeline = [];
 
         for (let i = 0; i < exp.length; i++) {
           const current = exp[i];
           const next = exp[i + 1];
           const dur = calculateDuration(current.startDate, current.endDate);
+
+          logInfo(`[TIMELINE] ${current.company} → ${dur.text}`);
 
           timeline.push({
             company: current.company,
@@ -60,7 +66,9 @@ export default function CareerTimeline() {
               "MMM YYYY",
               "MMMM YYYY",
             ]).diff(dayjs(current.endDate, ["MMM YYYY", "MMMM YYYY"]), "month");
+
             if (gapMonths > 1) {
+              logInfo(`[TIMELINE GAP] between ${current.company} → ${next.company}: ${gapMonths} months`);
               timeline.push({
                 gap: true,
                 duration: `${gapMonths} m`,
@@ -73,7 +81,7 @@ export default function CareerTimeline() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching timeline:", err);
+        logError("[API] /api/profile FAILED (career timeline):", err.message);
         setLoading(false);
       });
   }, []);

@@ -5,8 +5,20 @@ import {
   FaGithub,
   FaWhatsapp,
 } from "react-icons/fa";
+import { logInfo } from "@/utils/logger";
 
 export default function Footer() {
+  logInfo("[FOOTER] Render Footer with social links");
+
+  const socials = [
+    { href: "mailto:fahrulsidik07@gmail.com", icon: <FaEnvelope />, label: "Email" },
+    { href: "https://www.linkedin.com/in/fahrul-sidik-1433a3b7/", icon: <FaLinkedin />, label: "LinkedIn" },
+    { href: "https://github.com/fahruls07", icon: <FaGithub />, label: "GitHub" },
+    { href: "https://wa.me/6281234567890", icon: <FaWhatsapp />, label: "WhatsApp" },
+  ];
+
+  logInfo("[FOOTER] Available socials:", socials.map(s => s.label).join(", "));
+
   return (
     <footer className="bg-[#0f172a] text-gray-300 py-10 px-6 mt-16">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -33,18 +45,11 @@ export default function Footer() {
         <div>
           <h4 className="text-orange-400 font-medium text-lg mb-3">Connect</h4>
           <div className="flex gap-4 text-xl">
-            <a href="mailto:fahrulsidik07@gmail.com" className="hover:text-orange-400 transition">
-              <FaEnvelope />
-            </a>
-            <a href="https://www.linkedin.com/in/fahrul-sidik-1433a3b7/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition">
-              <FaLinkedin />
-            </a>
-            <a href="https://github.com/fahruls07" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition">
-              <FaGithub />
-            </a>
-            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition">
-              <FaWhatsapp />
-            </a>
+            {socials.map((s, idx) => (
+              <a key={idx} href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition">
+                {s.icon}
+              </a>
+            ))}
           </div>
         </div>
       </div>

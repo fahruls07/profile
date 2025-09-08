@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { resolveImagePath } from '@/utils/resolveImagePath';
 import { imageFallbackHandler } from '@/utils/imageFallbackHandler';
+import { logInfo, logWarn } from '@/utils/logger';
 
 export default function ProfileCard({ profile }) {
   const profileImg = resolveImagePath(profile.image || 'profile');
+  logInfo('[PROFILE CARD] render profile:', profile.name, '→ image path:', profileImg);
 
   return (
     <motion.div
@@ -16,7 +18,10 @@ export default function ProfileCard({ profile }) {
         src={profileImg}
         alt="Profile"
         className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-orange-400 shadow-md"
-        onError={imageFallbackHandler}
+        onError={(e) => {
+          logWarn('[IMG] gagal load profile image:', profileImg);
+          imageFallbackHandler(e);
+        }}
       />
       <div className="text-center md:text-left">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">{profile.name}</h1>

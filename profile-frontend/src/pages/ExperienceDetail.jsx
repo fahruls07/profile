@@ -4,16 +4,28 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { resolveImagePath } from '@/utils/resolveImagePath';
 import { imageFallbackHandler } from '@/utils/imageFallbackHandler';
+import { logInfo, logError, logWarn } from '@/utils/logger';
 
 export default function ExperienceDetail() {
   const { slug } = useParams();
   const [experience, setExperience] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/profile').then(res => {
-      const found = res.data.experiences.find((exp) => exp.slug === slug);
-      setExperience(found || null);
-    });
+    logInfo('[API] fetching /api/profile (experience detail) ...');
+    axios.get('/api/profile')
+      .then(res => {
+        const found = res.data.experiences.find((exp) => exp.slug === slug);
+        if (found) {
+          setExperience(found);
+          logInfo('[API] /api/profile OK, found experience:', slug);
+        } else {
+          logWarn('[API] experience not found for slug:', slug);
+          setExperience(null);
+        }
+      })
+      .catch(err => {
+        logError('[API] /api/profile FAILED (experience detail):', err.message);
+      });
   }, [slug]);
 
   if (!experience) {
@@ -21,6 +33,7 @@ export default function ExperienceDetail() {
   }
 
   const logoSrc = resolveImagePath(`logo/${experience.slug}`);
+  logInfo('[EXPERIENCE DETAIL] render:', experience.slug, '→ logo path:', logoSrc);
 
   return (
     <div className="px-4 sm:px-6 py-12 max-w-4xl mx-auto">
@@ -35,7 +48,10 @@ export default function ExperienceDetail() {
             src={logoSrc}
             alt={`${experience.company} logo`}
             className="w-16 h-16 object-contain rounded"
-            onError={imageFallbackHandler}
+            onError={(e) => {
+              logWarn('[IMG] gagal load logo experience detail:', logoSrc);
+              imageFallbackHandler(e);
+            }}
           />
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{experience.role}</h1>

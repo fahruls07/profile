@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
 import ThemeToggle from './ThemeToggle';
+import { logInfo } from '@/utils/logger';
 
 export default function Navbar() {
   const location = useLocation();
@@ -15,10 +16,17 @@ export default function Navbar() {
     { to: '/articles', label: 'Articles' },
   ];
 
+  useEffect(() => {
+    logInfo("[NAVBAR] Current route:", location.pathname);
+  }, [location]);
+
   const navLink = (to, label) => (
     <Link
       to={to}
-      onClick={() => setMenuOpen(false)}
+      onClick={() => {
+        logInfo(`[NAVBAR] Navigate to: ${to}`);
+        setMenuOpen(false);
+      }}
       className={`px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-sm font-medium transition-colors duration-200
         ${
           location.pathname === to
@@ -47,7 +55,10 @@ export default function Navbar() {
           {/* Mobile Hamburger */}
           <div className="md:hidden flex items-center ml-auto">
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => {
+                logInfo("[NAVBAR] Toggle menu:", !menuOpen);
+                setMenuOpen(!menuOpen);
+              }}
               className="text-gray-800 dark:text-white focus:outline-none"
             >
               {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}

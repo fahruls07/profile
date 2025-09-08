@@ -4,44 +4,38 @@ import { motion } from 'framer-motion';
 import { FiBookOpen, FiAward } from 'react-icons/fi';
 import { resolveImagePath } from '@/utils/resolveImagePath';
 import { imageFallbackHandler } from '@/utils/imageFallbackHandler';
+import { logInfo, logError, logWarn } from '@/utils/logger';
 
 export default function Education() {
   const [formal, setFormal] = useState([]);
   const [nonFormal, setNonFormal] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/profile').then((res) => {
-      setFormal(res.data.educationFormal || []);
-      setNonFormal(res.data.educationNonFormal || []);
-    });
+    logInfo('[API] fetching /api/profile (education) ...');
+    axios.get('/api/profile')
+      .then((res) => {
+        setFormal(res.data.educationFormal || []);
+        setNonFormal(res.data.educationNonFormal || []);
+        logInfo('[API] /api/profile OK, formal:', res.data.educationFormal?.length || 0, 'nonFormal:', res.data.educationNonFormal?.length || 0);
+      })
+      .catch((err) => {
+        logError('[API] /api/profile FAILED (education):', err.message);
+      });
   }, []);
 
   const getLogo = (institution) => {
     const slug = institution.toLowerCase().replace(/\s+/g, '-');
-    return resolveImagePath(`logo/${slug}`);
+    const path = resolveImagePath(`logo/${slug}`);
+    logInfo('[EDUCATION] logo path:', institution, '→', path);
+    return path;
   };
 
   return (
     <div className="px-4 sm:px-6 py-12 max-w-5xl mx-auto">
-      {/* Heading */}
       <h1 className="relative text-3xl font-bold mb-16 text-center">
         <span className="relative z-10 px-8 py-3 inline-block text-gray-900 dark:text-white bg-white dark:bg-gray-900 border-4 border-orange-500 rounded-full shadow-lg tracking-wide">
           Education
         </span>
-        <svg
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[180px] h-[60px] opacity-30 dark:opacity-20 pointer-events-none"
-          viewBox="0 0 160 50"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5 25C30 -5 130 55 155 25"
-            stroke="#F97316"
-            strokeWidth="3"
-            strokeDasharray="8 4"
-            strokeLinecap="round"
-          />
-        </svg>
       </h1>
 
       {/* Formal Education */}
@@ -61,7 +55,10 @@ export default function Education() {
             >
               <img
                 src={getLogo(edu.institution)}
-                onError={imageFallbackHandler}
+                onError={(e) => {
+                  logWarn('[IMG] gagal load logo education:', edu.institution);
+                  imageFallbackHandler(e);
+                }}
                 alt={edu.institution}
                 className="h-14 w-14 object-contain rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
               />

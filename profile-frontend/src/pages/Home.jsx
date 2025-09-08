@@ -5,15 +5,26 @@ import ProfileCard from '../components/ProfileCard';
 import HeaderBanner from '../components/HeaderBanner';
 import CareerTimeline from '../components/CareerTimeline';
 import Footer from '../components/Footer';
+import { logInfo, logError } from '@/utils/logger';
 
 export default function Home() {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/profile').then(res => setProfile(res.data));
+    logInfo('[API] fetching /api/profile (home) ...');
+    axios.get('/api/profile')
+      .then(res => {
+        setProfile(res.data);
+        logInfo('[API] /api/profile OK (home), skills:', res.data.skills?.length || 0);
+      })
+      .catch(err => {
+        logError('[API] /api/profile FAILED (home):', err.message);
+      });
   }, []);
 
   if (!profile) return <p className="text-center mt-10">Loading...</p>;
+
+  logInfo('[HOME] render profile:', profile.name);
 
   return (
     <div className="px-6 py-6 space-y-12 max-w-7xl mx-auto">

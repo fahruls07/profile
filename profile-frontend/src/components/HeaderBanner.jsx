@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { resolveImagePath } from '../utils/resolveImagePath';
+import { logInfo, logWarn } from '@/utils/logger';
 
 const bannerList = ['banner1', 'banner2', 'banner3'];
-const pauseDuration = 5000; // durasi per slide (ms) → 5000 = 5 detik
+const pauseDuration = 5000; // ms
 
 export default function HeaderBanner() {
   const [current, setCurrent] = useState(0);
@@ -13,6 +14,7 @@ export default function HeaderBanner() {
   };
 
   useEffect(() => {
+    logInfo('[BANNER] auto slide →', current);
     resetTimeout();
     timeoutRef.current = setTimeout(() => {
       setCurrent((prev) => (prev + 1) % bannerList.length);
@@ -21,11 +23,20 @@ export default function HeaderBanner() {
     return () => resetTimeout();
   }, [current]);
 
-  const goToSlide = (index) => setCurrent(index);
-  const goPrev = () =>
+  const goToSlide = (index) => {
+    logInfo('[BANNER] manual select →', index);
+    setCurrent(index);
+  };
+
+  const goPrev = () => {
+    logInfo('[BANNER] prev clicked');
     setCurrent((prev) => (prev - 1 + bannerList.length) % bannerList.length);
-  const goNext = () =>
+  };
+
+  const goNext = () => {
+    logInfo('[BANNER] next clicked');
     setCurrent((prev) => (prev + 1) % bannerList.length);
+  };
 
   return (
     <div
@@ -37,18 +48,21 @@ export default function HeaderBanner() {
         }, pauseDuration);
       }}
     >
-      {bannerList.map((banner, index) => (
-        <img
-          key={index}
-          src={resolveImagePath(`banner/${banner}`)}
-          alt={`Banner ${index + 1}`}
-          className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-            index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
-          }`}
-        />
-      ))}
+      {bannerList.map((banner, index) => {
+        const src = resolveImagePath(`banner/${banner}`);
+        return (
+          <img
+            key={index}
+            src={src}
+            alt={`Banner ${index + 1}`}
+            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+              index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+            onError={() => logWarn('[IMG] gagal load banner:', src)}
+          />
+        );
+      })}
 
-      {/* Tombol Prev */}
       <button
         onClick={goPrev}
         className="absolute top-1/2 left-4 -translate-y-1/2 bg-black/40 text-white text-xl sm:text-2xl p-2 rounded-full hover:bg-black/60 transition z-20"
@@ -56,7 +70,6 @@ export default function HeaderBanner() {
         ‹
       </button>
 
-      {/* Tombol Next */}
       <button
         onClick={goNext}
         className="absolute top-1/2 right-4 -translate-y-1/2 bg-black/40 text-white text-xl sm:text-2xl p-2 rounded-full hover:bg-black/60 transition z-20"
@@ -64,7 +77,6 @@ export default function HeaderBanner() {
         ›
       </button>
 
-      {/* Manual selector (bulatan bawah) */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
         {bannerList.map((_, index) => (
           <button

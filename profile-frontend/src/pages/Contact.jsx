@@ -2,14 +2,21 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { FiMail, FiLinkedin, FiGithub, FiMessageSquare } from 'react-icons/fi';
+import { logInfo, logError } from '@/utils/logger';
 
 export default function Contact() {
   const [contact, setContact] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/profile').then(res => {
-      setContact(res.data.contact);
-    });
+    logInfo('[API] fetching /api/profile (contact) ...');
+    axios.get('/api/profile')
+      .then(res => {
+        setContact(res.data.contact);
+        logInfo('[API] /api/profile OK, contact loaded');
+      })
+      .catch(err => {
+        logError('[API] /api/profile FAILED (contact):', err.message);
+      });
   }, []);
 
   if (!contact) return <p className="p-8">Loading...</p>;
@@ -41,13 +48,14 @@ export default function Contact() {
     },
   ];
 
+  logInfo('[CONTACT] render items:', contacts.filter(c => c.value).length);
+
   return (
     <motion.div
       className="p-8 max-w-4xl mx-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      {/* Heading */}
       <h1 className="text-2xl font-bold px-6 py-2 rounded-full border-2 border-orange-500 text-orange-100 bg-[#0f172a] w-fit mx-auto mb-10 shadow-md">
         Contact Me
       </h1>
