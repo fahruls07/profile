@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { getFilesWithExtension } = require('../utils/getFilesWithExtension');
+const { logInfo, logWarn, logError, logSuccess } = require('../utils/logger');
 
 const router = express.Router();
 
@@ -10,14 +11,26 @@ const logoDir = path.join(process.cwd(), 'public/assets/logos');
 
 // GET daftar banner
 router.get('/banners', (req, res) => {
-  const banners = getFilesWithExtension(bannerDir);
-  res.json({ banners });
+  try {
+    const banners = getFilesWithExtension(bannerDir);
+    logSuccess(`Found ${banners.length} banners`);
+    res.json({ banners });
+  } catch (err) {
+    logError('Error fetching banners:', err.message);
+    res.status(500).json({ error: 'Failed to fetch banners' });
+  }
 });
 
 // GET daftar logo
 router.get('/logos', (req, res) => {
-  const logos = getFilesWithExtension(logoDir);
-  res.json({ logos });
+  try {
+    const logos = getFilesWithExtension(logoDir);
+    logSuccess(`Found ${logos.length} logos`);
+    res.json({ logos });
+  } catch (err) {
+    logError('Error fetching logos:', err.message);
+    res.status(500).json({ error: 'Failed to fetch logos' });
+  }
 });
 
 module.exports = router;
