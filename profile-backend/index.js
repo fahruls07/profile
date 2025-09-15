@@ -35,11 +35,13 @@ const profileRoute = require('./routes/profile');
 const articleRoute = require('./routes/articles');
 const assetsRoutes = require('./routes/assets');
 const experienceRoutes = require('./routes/experience');
+const listRoute = require('./routes/list');
 
 app.use('/api/profile', profileRoute);
 app.use('/api/articles', articleRoute);
 app.use('/api/assets', assetsRoutes);
 app.use('/api/experience', experienceRoutes);
+app.use('/api/list', listRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => logSuccess(`Backend running on port ${PORT}`));

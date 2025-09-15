@@ -1,5 +1,4 @@
-//const mongoose = require('mongoose');
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const experienceSchema = new mongoose.Schema({
   role: String,
@@ -8,7 +7,7 @@ const experienceSchema = new mongoose.Schema({
   description: String,
   responsibilities: [String],
   stack: [String],
-  slug: String, // ← tambahkan slug
-});
+  slug: { type: String, unique: true },
+}, { timestamps: true });
 
-export default mongoose.model('Experience', experienceSchema);
+module.exports = mongoose.model('Experience', experienceSchema);

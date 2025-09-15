@@ -32,6 +32,8 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/resumedb
       - ASSETS_PATH=/app/public/assets
+      - ENABLE_LIST_API=${ENABLE_LIST_API}
+      - LIST_API_TOKEN=${LIST_API_TOKEN}
     volumes:
       - ./profile-frontend/public:/app/public
 

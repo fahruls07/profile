@@ -7,6 +7,8 @@ import Experience from './pages/Experience';
 import Education from './pages/Education';
 import Contact from './pages/Contact';
 import ExperienceDetail from './pages/ExperienceDetail';
+import ListApi from './pages/ListApi';
+import { ENABLE_LIST_API } from './config';
 
 const bgLight = `${import.meta.env.VITE_BACKGROUND_PATH || '/assets/background/'}bg-light.png`;
 const bgDark = `${import.meta.env.VITE_BACKGROUND_PATH || '/assets/background/'}bg-dark.png`;
@@ -47,6 +49,8 @@ export default function App() {
             <Route path="/education" element={<Education />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/experience/:slug" element={<ExperienceDetail />} />
+            <Route path="/list-api" element={<ListApi />} />
+            
           </Routes>
         </div>
 

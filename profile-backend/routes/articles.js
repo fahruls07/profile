@@ -32,4 +32,49 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
+// CREATE article
+router.post('/', async (req, res) => {
+  try {
+    const newArticle = new Article(req.body);
+    await newArticle.save();
+    logSuccess(`New article created: ${newArticle.title}`);
+    res.status(201).json(newArticle);
+  } catch (err) {
+    logError('Failed to create article:', err.message);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// UPDATE article
+router.put('/:id', async (req, res) => {
+  try {
+    const updated = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updated) {
+      logWarn(`Article not found for update: id=${req.params.id}`);
+      return res.status(404).json({ error: 'Article not found' });
+    }
+    logSuccess(`Article updated: ${updated.title}`);
+    res.json(updated);
+  } catch (err) {
+    logError('Failed to update article:', err.message);
+    res.status(400).json({ error: err.message });
+  }
+});
+
+// DELETE article
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await Article.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      logWarn(`Article not found for delete: id=${req.params.id}`);
+      return res.status(404).json({ error: 'Article not found' });
+    }
+    logSuccess(`Article deleted: ${deleted.title}`);
+    res.json({ message: 'Article deleted successfully' });
+  } catch (err) {
+    logError('Failed to delete article:', err.message);
+    res.status(400).json({ error: err.message });
+  }
+});
+
 module.exports = router;

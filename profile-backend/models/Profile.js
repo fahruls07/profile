@@ -31,8 +31,8 @@ const profileSchema = new mongoose.Schema({
   contact: {
     email: String,
     linkedin: String,
-    github: String
-  }
+    github: String,
+  },
 }, { timestamps: true });
 
 module.exports = mongoose.model('Profile', profileSchema);
