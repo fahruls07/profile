@@ -1,21 +1,41 @@
 const mongoose = require('mongoose');
 
 const experienceSchema = new mongoose.Schema({
-  position: String,
   company: String,
-  duration: String,
+  role: String,
+  startDate: String,
+  endDate: String,
+  year: String,
   description: String,
-  techStack: [String],
+  stack: [String],
   responsibilities: [String],
   slug: String,
 });
 
-const educationSchema = new mongoose.Schema({
-  school: String,
+const educationFormalSchema = new mongoose.Schema({
+  institution: String,
   degree: String,
   major: String,
   year: String,
-  GPA: String,
+  gpa: String,
+});
+
+const educationNonFormalSchema = new mongoose.Schema({
+  course: String,
+  institution: String,
+  year: String,
+  description: String,
+});
+
+
+const contactSchema = new mongoose.Schema({
+  email: String,
+  linkedin: String,
+  github: String,
+  whatsapp: {
+    label: String,
+    number: String,
+  },
 });
 
 const profileSchema = new mongoose.Schema({
@@ -27,12 +47,9 @@ const profileSchema = new mongoose.Schema({
   skills: [String],
   languages: [String],
   experiences: [experienceSchema],
-  education: [educationSchema],
-  contact: {
-    email: String,
-    linkedin: String,
-    github: String,
-  },
-}, { timestamps: true });
+  educationFormal: [educationFormalSchema],
+  educationNonFormal: [educationNonFormalSchema],
+  contact: contactSchema,
+});
 
 module.exports = mongoose.model('Profile', profileSchema);

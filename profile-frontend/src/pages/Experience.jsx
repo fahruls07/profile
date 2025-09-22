@@ -10,14 +10,14 @@ export default function Experience() {
   const [experiences, setExperiences] = useState([]);
 
   useEffect(() => {
-    logInfo('[API] fetching /api/profile ...');
-    axios.get('/api/profile')
+    logInfo('[API] fetching /api/experience ...');
+    axios.get('/api/experience')
       .then(res => {
-        setExperiences(res.data.experiences || []);
-        logInfo('[API] /api/profile OK, experiences:', res.data.experiences?.length || 0);
+        setExperiences(res.data || []);
+        logInfo('[API] /api/experience OK, items:', res.data?.length || 0);
       })
       .catch(err => {
-        logError('[API] /api/profile FAILED:', err.message);
+        logError('[API] /api/experience FAILED:', err.message);
       });
   }, []);
 
@@ -38,7 +38,7 @@ export default function Experience() {
 
           return (
             <motion.div
-              key={index}
+              key={exp._id || index}
               initial={{ opacity: 0, x: isEven ? -30 : 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}

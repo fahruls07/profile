@@ -11,20 +11,15 @@ export default function ExperienceDetail() {
   const [experience, setExperience] = useState(null);
 
   useEffect(() => {
-    logInfo('[API] fetching /api/profile (experience detail) ...');
-    axios.get('/api/profile')
+    logInfo(`[API] fetching /api/experience/${slug} ...`);
+    axios.get(`/api/experience/${slug}`)
       .then(res => {
-        const found = res.data.experiences.find((exp) => exp.slug === slug);
-        if (found) {
-          setExperience(found);
-          logInfo('[API] /api/profile OK, found experience:', slug);
-        } else {
-          logWarn('[API] experience not found for slug:', slug);
-          setExperience(null);
-        }
+        setExperience(res.data || null);
+        logInfo('[API] /api/experience OK, detail:', slug);
       })
       .catch(err => {
-        logError('[API] /api/profile FAILED (experience detail):', err.message);
+        logError(`[API] /api/experience/${slug} FAILED:`, err.message);
+        setExperience(null);
       });
   }, [slug]);
 

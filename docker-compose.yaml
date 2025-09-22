@@ -30,7 +30,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://mongo:27017/resumedb
+      - MONGO_URI=${MONGO_URI}
       - ASSETS_PATH=/app/public/assets
       - ENABLE_LIST_API=${ENABLE_LIST_API}
       - LIST_API_TOKEN=${LIST_API_TOKEN}
@@ -40,6 +40,11 @@ services:
   mongo:
     image: mongo:6
     container_name: resume_mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DB_NAME}
     ports:
       - "27017:27017"
     volumes:
