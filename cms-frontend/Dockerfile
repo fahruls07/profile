@@ -1,7 +1,7 @@
 FROM node:18-alpine
 
 WORKDIR /app
-COPY . .
+COPY cms-frontend/. .
 RUN npm install
 
 EXPOSE 3000

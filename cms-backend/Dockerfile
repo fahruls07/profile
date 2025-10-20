@@ -1,16 +1,8 @@
-# use official node image
 FROM node:18-alpine
 
 WORKDIR /app
+COPY cms-backend/. .
+RUN npm install
 
-# install dependencies
-COPY package.json package-lock.json* ./
-RUN npm install --production
-
-# copy source
-COPY . .
-
-ENV NODE_ENV=production
 EXPOSE 5000
-
-CMD ["node", "src/index.js"]
+CMD ["node", "index.js"]

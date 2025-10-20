@@ -6,8 +6,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro 
   frontend:
     image: ${DOCKER_REGISTRY}/profile-fe:${FE_VERSION}
     restart: unless-stopped
@@ -23,9 +22,9 @@ services:
       - VITE_DEBUG=${DEBUG}
     volumes:
       - ./profile-frontend/public:/app/public
-
   backend:
     image: ${DOCKER_REGISTRY}/profile-be:${BE_VERSION}
+    restart: unless-stopped
     container_name: resume_backend
     ports:
       - "5000:5000"
@@ -36,7 +35,26 @@ services:
       - LIST_API_TOKEN=${LIST_API_TOKEN}
     volumes:
       - ./profile-frontend/public:/app/public
-
+  cms-frontend:
+    image: ${DOCKER_REGISTRY}/cms-fe:${CMS_FE_VERSION}
+    container_name: cms_frontend
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - VITE_API_URL=${BE_URL}/cms-api
+    depends_on:
+      - cms-backend
+  cms-backend:
+    image: ${DOCKER_REGISTRY}/cms-be:${CMS_BE_VERSION}
+    container_name: cms_backend
+    restart: unless-stopped
+    expose:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    depends_on:
+      - mongo
   mongo:
     image: mongo:6
     container_name: resume_mongo
