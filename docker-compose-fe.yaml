@@ -1,0 +1,16 @@
+services:
+  frontend:
+    image: ${DOCKER_REGISTRY}/profile-fe:${FE_VERSION}
+    restart: unless-stopped
+    container_name: resume_frontend
+    expose:
+      - "3000"
+    environment:
+      - VITE_API_URL=${BE_URL}
+      - VITE_LOGO_PATH=${LOGO_PATH}
+      - VITE_BACKGROUND_PATH=${BACKGROUND_PATH}
+      - VITE_BANNER_PATH=${BANNER_PATH}
+      - VITE_PROFILE_PATH=${PROFILE_PATH}
+      - VITE_DEBUG=${DEBUG}
+    volumes:
+      - ./profile-frontend/public:/app/public

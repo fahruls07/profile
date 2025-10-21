@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: ${DOCKER_REGISTRY}/profile-be:${BE_VERSION}
+    restart: unless-stopped
+    container_name: resume_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - ASSETS_PATH=/app/public/assets
+      - ENABLE_LIST_API=${ENABLE_LIST_API}
+      - LIST_API_TOKEN=${LIST_API_TOKEN}
+    volumes:
+      - ./profile-frontend/public:/app/public

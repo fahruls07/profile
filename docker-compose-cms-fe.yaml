@@ -1,0 +1,11 @@
+services:
+  cms-frontend:
+    image: ${DOCKER_REGISTRY}/cms-fe:${CMS_FE_VERSION}
+    container_name: cms_frontend
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - VITE_API_URL=${BE_URL}/cms-api
+    depends_on:
+      - cms-backend

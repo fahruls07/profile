@@ -1,0 +1,11 @@
+services:
+  cms-backend:
+    image: ${DOCKER_REGISTRY}/cms-be:${CMS_BE_VERSION}
+    container_name: cms_backend
+    restart: unless-stopped
+    expose:
+      - "5000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    depends_on:
+      - mongo
